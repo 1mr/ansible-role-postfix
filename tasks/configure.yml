@@ -1,0 +1,47 @@
+---
+- name: set mailname
+  copy: >
+    content='{{ inventory_hostname }}{{ '\n' }}'
+    dest=/etc/mailname
+  tags:
+    - mailname
+
+- name: configure sender_canonical
+  template: >
+    src=sender_canonical.j2
+    dest=/etc/postfix/sender_canonical
+  when: postfix_sender_canonical is defined
+  notify:
+    - postmap sender_canonical
+
+- name: configure main.cf
+  template: >
+    src=main.cf.j2
+    dest=/etc/postfix/main.cf
+  when: ansible_distribution_major_version < '9'
+  notify:
+    - restart postfix
+
+- name: configure master.cf
+  template: >
+    src=master.cf.j2
+    dest=/etc/postfix/master.cf
+  when: ansible_distribution_major_version < '9'
+  notify:
+    - restart postfix
+
+- name: configure main.cf
+  template: >
+    src=main_3.x.cf.j2
+    dest=/etc/postfix/main.cf
+  when: ansible_distribution_major_version >= '9'
+  notify:
+    - restart postfix
+
+- name: configure master.cf
+  template: >
+    src=master_3.x.cf.j2
+    dest=/etc/postfix/master.cf
+  when: ansible_distribution_major_version >= '9'
+  notify:
+    - restart postfix

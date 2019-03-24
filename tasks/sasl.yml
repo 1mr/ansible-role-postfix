@@ -1,0 +1,14 @@
+---
+- name: configure sasl password maps
+  template: >
+    src=passwd.j2
+    dest={{ postfix_smtp_sasl_password_maps }}
+    mode=0600
+
+- name: create a hashmap database file for sasl
+  shell: postmap hash:{{ postfix_smtp_sasl_password_maps }}
+
+- name: change a hashmap database file permission
+  file: >
+    path={{ postfix_smtp_sasl_password_maps }}.db
+    mode=0600

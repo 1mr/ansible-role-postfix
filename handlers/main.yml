@@ -1,0 +1,13 @@
+---
+- name: restart postfix
+  service: >
+    name=postfix
+    state=restarted
+
+- name: update aliases
+  command: >
+    /usr/bin/newaliases
+    
+- name: postmap sender_canonical
+  command: >
+    postmap /etc/postfix/sender_canonical

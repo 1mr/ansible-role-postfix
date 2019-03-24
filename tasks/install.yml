@@ -1,0 +1,12 @@
+---
+- name: install postfix
+  apt: >
+    name={{ item }}
+    state=latest
+    update_cache=yes
+    cache_valid_time=600
+  with_items: 
+    - mutt  
+    - postfix
+    - postfix-pcre
+    - bsd-mailx

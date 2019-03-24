@@ -1,0 +1,21 @@
+---
+- import_tasks: install.yml
+  tags:
+    - install_postfix
+    - install
+
+- import_tasks: configure.yml
+  tags:
+    - configure_postfix
+    - configure
+
+- import_tasks: sasl.yml
+  when: postfix_smtp_sasl_password_maps is defined
+  tags:
+    - sasl_postfix
+    - sasl
+
+- import_tasks: aliases.yml
+  tags:
+    - aliases_postfix
+    - aliases

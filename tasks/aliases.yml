@@ -1,0 +1,11 @@
+---
+- name: add aliases
+  lineinfile: >
+    dest=/etc/aliases
+    regexp="^{{ item.key }}:"
+    line="{{ item.key }}: {{ item.value.alias }}"
+  with_dict: '{{ postfix_aliases }}'
+  notify:
+    - update aliases
+
+- meta: flush_handlers
