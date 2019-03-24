@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: postfix
   author: Stas Stavnichuk
   description: install and configure postfix
   license: BSD
